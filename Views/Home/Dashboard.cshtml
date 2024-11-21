@@ -1,0 +1,88 @@
+﻿@{
+	ViewData["Title"] = "Dashboard";
+}
+
+<div class="row">
+	<div class="col-6">
+		<div class="card">
+			<div id="graficoPromedioDesemepenoSatisfaccion"></div>
+		</div>
+	</div>
+	<div class="col-6">
+		<div class="card">
+			<div id="graficoPuntajeDesemepenoSatisfaccion"></div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.card {
+		padding: 10px;
+		margin: 20px;
+	}
+</style>
+
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const departamentos = @Html.Raw(ViewBag.Departamentos);
+		const promedioDesempeno = @Html.Raw(ViewBag.PromedioDesempeno);
+		const promedioSatisfaccion = @Html.Raw(ViewBag.PromedioSatisfaccion);
+		const puntajeDesempeno = @Html.Raw(ViewBag.PuntajeDesempeno);
+		const puntajeSatisfaccion = @Html.Raw(ViewBag.PuntajeSatisfaccion);
+
+		const configuracionGraficoPromedioDesemepenoSatisfaccion = {
+			chart: {
+				type: 'radar'
+			},
+			series: [
+				{
+					name: 'Desempeño Promedio',
+					data: promedioDesempeno
+				}, 
+				{
+					name:'Satisfacción Promedio',
+					data: promedioSatisfaccion
+				}
+			],
+			labels: departamentos,
+			title: {
+				text: 'Comparación de Desempeño y Satisfacción Promedio por Departamento'
+			}
+		}
+
+		const graficoPromedioDesemepenoSatisfaccion = new ApexCharts(document.getElementById("graficoPromedioDesemepenoSatisfaccion"), configuracionGraficoPromedioDesemepenoSatisfaccion);
+		graficoPromedioDesemepenoSatisfaccion.render();
+
+
+		const configuracionGraficoPuntajeDesemepenoSatisfaccion = {
+			chart: {
+				type: 'bar'
+			},
+			series: [
+				{
+					name: 'Desempeño',
+					data: puntajeDesempeno.map(e => e.toFixed(2))
+				},
+				{
+					name: 'Satisfacción',
+					data: puntajeSatisfaccion.map(e => e.toFixed(2))
+				}
+			],
+			xaxis: {
+				categories: departamentos
+			},
+			title: {
+				text: 'Comparación puntaje de Desempeño y Satisfacción por Departamento'
+			}
+		}
+
+		const graficoPuntajeDesemepenoSatisfaccion = new ApexCharts(
+			document.getElementById('graficoPuntajeDesemepenoSatisfaccion'),
+			configuracionGraficoPuntajeDesemepenoSatisfaccion
+		);
+
+		graficoPuntajeDesemepenoSatisfaccion.render();
+	})
+
+</script>

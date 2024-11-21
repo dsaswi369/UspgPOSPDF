@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    ViewData["Layout"] = "_LayoutLogged";
+}
+<div class="row">
+    <div class="col-6">
+        <div id="chart"></div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () { 
+
+        var options = {
+            chart: {
+                type: 'line'
+            },
+            series: [
+                {
+                    name: 'sales',
+                    data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+                },
+                {
+                    name: 'costs',
+                    data: [10, 20, 5, 10, 4, 6, 7, 21, 50]
+                }
+            ],
+            xaxis: {
+                categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+            }
+        }
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+        chart.render();
+
+    })
+    
+</script>
